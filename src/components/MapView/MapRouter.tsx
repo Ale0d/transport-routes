@@ -8,11 +8,10 @@ interface IMapRouter {
   width: Number
   height: Number
 }
+
 export const MapRouter: React.FC<IMapRouter> = (props) => {
   const { width, height } = props
-  // const blueOptions = { fillColor: 'blue' }
   const purpleOptions = { color: 'purple' }
-  // const redOptions = { color: 'red' }
   const zoom: number = 8
   const mapStyle = {
     width: `${width}px`,
@@ -47,23 +46,23 @@ export const MapRouter: React.FC<IMapRouter> = (props) => {
           (map.startPoint[1] + map.endPoint[1]) / 2,
         ]
       : [55.865572, 37.283523]
+
   return (
     <Fragment>
-      <div id="map" style={{ width: '100%', height: '100%' }}>
-        <MapContainer
-          key={defaultLatLng.join('')}
-          id="mapId"
-          center={defaultLatLng}
-          zoom={zoom}
-          style={mapStyle}
-        >
-          {layoutRoute}
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-        </MapContainer>
-      </div>
+      <MapContainer
+        key={'' + map.startPoint?.[0] + width + height}
+        id="mapId"
+        center={defaultLatLng}
+        zoom={zoom}
+        style={mapStyle}
+      >
+        {layoutRoute}
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+      </MapContainer>
+      <div id="map" style={{ width: '100%', height: '100%' }}></div>
     </Fragment>
   )
 }

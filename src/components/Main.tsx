@@ -5,7 +5,6 @@ import { MapRouter } from './MapView/MapRouter'
 import { TableRouters } from './MapView/TableRouters'
 import { Properties } from 'csstype'
 import 'antd/dist/antd.css'
-import { useSelector } from 'react-redux'
 import { FETCH_ORDERS, FETCH_POINTS } from '../features/map/actionTypes'
 
 const dividerWidth = 2
@@ -35,7 +34,6 @@ export const Main: React.FC = () => {
   const [appWidth, setAppWidth] = useState<number>(832)
   const [appHeight, setAppHeight] = useState<number>(832)
   const [onMove, setOnMove] = useState<number>(-1)
-  const store = useSelector((s) => s)
   const dispatch = useDispatch()
 
   function updateAppSize() {
@@ -50,8 +48,6 @@ export const Main: React.FC = () => {
   }
 
   useEffect(() => {
-    //first fetch data
-    console.log(store, 'only first')
     dispatch({
       type: FETCH_POINTS,
     })
@@ -105,7 +101,14 @@ export const Main: React.FC = () => {
         onMouseLeave={handlerUp}
         style={{ height: '100%' }}
       >
-        <Col style={{ width: `${tableWidth}px`, overflowX: 'scroll' }}>
+        <Col
+          style={{
+            width: `${tableWidth}px`,
+            height: `${appHeight}px`,
+            overflowX: 'scroll',
+            overflowY: 'scroll',
+          }}
+        >
           <TableRouters></TableRouters>
         </Col>
         <Col onMouseDown={handlerDown}>
@@ -113,7 +116,6 @@ export const Main: React.FC = () => {
         </Col>
         <Col style={{ width: `auto` }}>
           <MapRouter
-            key={String(appHeight + tableWidth)}
             width={appWidth - dividerWidthMargin - tableWidth}
             height={appHeight}
           ></MapRouter>

@@ -69,6 +69,54 @@ const tableData: Array<IRouteItem> = [
     From: 4,
     To: 1,
   },
+  {
+    Id: 5,
+    Name: '5 Item',
+    From: 1,
+    To: 2,
+  },
+  {
+    Id: 6,
+    Name: '6 Item',
+    From: 2,
+    To: 3,
+  },
+  {
+    Id: 7,
+    Name: '7 Item',
+    From: 3,
+    To: 4,
+  },
+  {
+    Id: 8,
+    Name: '8 Item',
+    From: 4,
+    To: 1,
+  },
+  {
+    Id: 9,
+    Name: '9 Item',
+    From: 1,
+    To: 2,
+  },
+  {
+    Id: 10,
+    Name: '10 Item',
+    From: 2,
+    To: 3,
+  },
+  {
+    Id: 11,
+    Name: '11 Item',
+    From: 3,
+    To: 4,
+  },
+  {
+    Id: 12,
+    Name: '12 Item',
+    From: 4,
+    To: 1,
+  },
 ]
 export function fakeFetchPoints() {
   const resPromise = new Promise((resolve, reject) => {

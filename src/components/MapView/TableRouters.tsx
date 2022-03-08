@@ -102,7 +102,6 @@ export const TableRouters: React.FC = () => {
   }
   return (
     <div>
-      <h3>Таблица с заявками</h3>
       <Table
         dataSource={sourceTable}
         rowClassName={(record): string => {
