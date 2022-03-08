@@ -1,7 +1,7 @@
 import { LatLngTuple } from 'leaflet'
 import React, { Fragment } from 'react'
 import { useSelector } from 'react-redux'
-import { CircleMarker, MapContainer, Polyline, TileLayer } from 'react-leaflet'
+import { Marker, MapContainer, Polyline, TileLayer, Popup } from 'react-leaflet'
 import { RouteState } from '../../features/map/types'
 
 interface IMapRouter {
@@ -10,9 +10,9 @@ interface IMapRouter {
 }
 export const MapRouter: React.FC<IMapRouter> = (props) => {
   const { width, height } = props
-  const blueOptions = { fillColor: 'blue' }
+  // const blueOptions = { fillColor: 'blue' }
   const purpleOptions = { color: 'purple' }
-  const redOptions = { color: 'red' }
+  // const redOptions = { color: 'red' }
   const zoom: number = 8
   const mapStyle = {
     width: `${width}px`,
@@ -25,18 +25,14 @@ export const MapRouter: React.FC<IMapRouter> = (props) => {
   const layoutRoute = map ? (
     <Fragment>
       {map.startPoint ? (
-        <CircleMarker
-          center={map.startPoint}
-          pathOptions={blueOptions}
-          radius={20}
-        ></CircleMarker>
+        <Marker position={map.startPoint}>
+          <Popup>Точка отправки</Popup>
+        </Marker>
       ) : null}
       {map.endPoint ? (
-        <CircleMarker
-          center={map.endPoint}
-          pathOptions={redOptions}
-          radius={20}
-        ></CircleMarker>
+        <Marker position={map.endPoint}>
+          <Popup>Точка доставки</Popup>
+        </Marker>
       ) : null}
 
       {map.route ? (
