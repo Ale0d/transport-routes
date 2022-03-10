@@ -37,3 +37,6 @@ tr.ant-table-row.selected{
 tr.ant-table-row.selected:hover{
   background-color: plum;
 }
+ul.ant-pagination-custom-center{
+  justify-content:center
+}

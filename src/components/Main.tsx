@@ -33,6 +33,7 @@ export const Main: React.FC = () => {
       setAppWidth(newAppWidth)
       setAppHeight(newAppHeight)
       setTableWidth(blockWidth)
+      setMapWidth(newAppWidth - dividerWidthMargin - blockWidth)
     }
   }
 

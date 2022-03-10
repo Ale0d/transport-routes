@@ -74,13 +74,29 @@ export const TableRouters: React.FC = () => {
           if (record.key === selectedRow) return 'selected'
           return ''
         }}
+        loading={sourceTable.length === 0 ? true : false}
         onRow={rowHandler}
+        pagination={{
+          className: 'ant-pagination-custom-center',
+          size: 'default',
+          hideOnSinglePage: true,
+        }}
       >
-        <Table.Column<ITableColItem> key="Id" title="#" dataIndex="key" />
+        <Table.Column<ITableColItem>
+          key="Id"
+          title="#"
+          dataIndex="key"
+          sorter={(a: ITableColItem, b: ITableColItem): number =>
+            Number(a.key) - Number(b.key)
+          }
+        />
         <Table.Column<ITableColItem>
           key="NameShipment"
           title="Название заказа"
           dataIndex="NameShipment"
+          sorter={(a: ITableColItem, b: ITableColItem): number =>
+            a.NameShipment > b.NameShipment ? 1 : -1
+          }
         />
         <Table.Column<ITableColItem>
           key="From"
