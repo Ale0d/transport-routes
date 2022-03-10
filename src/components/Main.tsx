@@ -1,23 +1,11 @@
 import { Col, Divider, Row } from 'antd'
-import React, { Fragment, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { MapRouter } from './MapView/MapRouter'
 import { TableRouters } from './MapView/TableRouters'
-import { Properties } from 'csstype'
 import 'antd/dist/antd.css'
 import { FETCH_ORDERS, FETCH_POINTS } from '../features/map/actionTypes'
-
-const dividerWidth = 2
-const dividerWidthMargin = dividerWidth * 8 + 16
-const DividerStyle: Properties = {
-  height: '100%',
-  cursor: 'col-resize',
-  padding: `0px ${dividerWidth}px`,
-  backgroundColor: 'black',
-  userSelect: 'none',
-  width: `${dividerWidth}px`,
-  border: `${dividerWidth}px solid #0000`,
-}
+import { ColStyleWraper, DividerStyle, dividerWidthMargin } from './Main.styles'
 
 const MovingDivider: React.FC = () => {
   return (
@@ -31,6 +19,7 @@ const MovingDivider: React.FC = () => {
 export const Main: React.FC = () => {
   const layoutRef = useRef<HTMLDivElement>(null)
   const [tableWidth, setTableWidth] = useState<number>(400)
+  const [mapWidth, setMapWidth] = useState<number>(400)
   const [appWidth, setAppWidth] = useState<number>(832)
   const [appHeight, setAppHeight] = useState<number>(832)
   const [onMove, setOnMove] = useState<number>(-1)
@@ -79,6 +68,7 @@ export const Main: React.FC = () => {
       let newTableWidth = getNewTableWitdh(event.clientX)
       setOnMove(-1)
       setTableWidth(newTableWidth)
+      setMapWidth(appWidth - dividerWidthMargin - newTableWidth)
     }
   }
 
@@ -86,14 +76,17 @@ export const Main: React.FC = () => {
     if (onMove !== -1) {
       let newTableWidth = getNewTableWitdh(event.clientX)
       setTableWidth(newTableWidth)
+      setMapWidth(appWidth - dividerWidthMargin - newTableWidth)
       setOnMove(event.clientX)
     }
   }
   function handlerDown(event: React.MouseEvent) {
     setOnMove(event.clientX)
   }
+  const TableRouterBox = useMemo(() => <TableRouters />, [])
+
   return (
-    <Fragment>
+    <div>
       <Row
         ref={layoutRef}
         onMouseUp={handlerUp}
@@ -105,22 +98,18 @@ export const Main: React.FC = () => {
           style={{
             width: `${tableWidth}px`,
             height: `${appHeight}px`,
-            overflowX: 'scroll',
-            overflowY: 'scroll',
+            overflow: 'scroll',
           }}
         >
-          <TableRouters></TableRouters>
+          {TableRouterBox}
         </Col>
         <Col onMouseDown={handlerDown}>
           <MovingDivider />
         </Col>
-        <Col style={{ width: `auto` }}>
-          <MapRouter
-            width={appWidth - dividerWidthMargin - tableWidth}
-            height={appHeight}
-          ></MapRouter>
+        <Col style={ColStyleWraper}>
+          <MapRouter width={mapWidth} height={appHeight}></MapRouter>
         </Col>
       </Row>
-    </Fragment>
+    </div>
   )
 }
