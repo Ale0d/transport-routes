@@ -1,48 +1,14 @@
-import { Select, Table } from 'antd'
+import { Table } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { SET_POINT_ROUTE, UPDATE_ORDER } from '../../features/map/actionTypes'
+import { SET_POINT_ROUTE } from '../../features/map/actionTypes'
 import {
   IRouteItem,
   ITableColItem,
-  ITransportPoint,
   OrdersState,
   PointsState,
 } from '../../features/map/types'
-
-interface SelectPointProps {
-  points: PointsState['points']
-  defaultPoint: number
-  orderId: number
-  typePoint: 'From' | 'To'
-  updateHandler(): void
-}
-export const SelectPoint: React.FC<SelectPointProps> = (props) => {
-  const dispatch = useDispatch()
-  const { points, defaultPoint, orderId, typePoint, updateHandler } = props
-  return (
-    <Select
-      defaultValue={String(defaultPoint)}
-      onChange={(value) => {
-        dispatch({
-          type: UPDATE_ORDER,
-          payload: {
-            orderId: orderId,
-            newValue: value,
-            nameValue: typePoint,
-          },
-        })
-        updateHandler()
-      }}
-    >
-      {points.map((el: ITransportPoint) => (
-        <Select.Option key={String(el.Id)} value={String(el.Id)}>
-          {el.Name}
-        </Select.Option>
-      ))}
-    </Select>
-  )
-}
+import { SelectPoints } from './SelectPoints'
 
 export const TableRouters: React.FC = () => {
   const dispatch = useDispatch()
@@ -122,7 +88,7 @@ export const TableRouters: React.FC = () => {
           dataIndex="From"
           render={(value, record) => {
             return (
-              <SelectPoint
+              <SelectPoints
                 orderId={Number(record.key)}
                 points={points}
                 defaultPoint={Number(record.FromId)}
@@ -138,7 +104,7 @@ export const TableRouters: React.FC = () => {
           dataIndex="To"
           render={(value, record) => {
             return (
-              <SelectPoint
+              <SelectPoints
                 orderId={Number(record.key)}
                 points={points}
                 defaultPoint={Number(record.ToId)}
