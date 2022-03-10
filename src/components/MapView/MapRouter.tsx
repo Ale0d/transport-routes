@@ -1,8 +1,9 @@
 import { LatLngTuple } from 'leaflet'
 import React, { Fragment } from 'react'
 import { useSelector } from 'react-redux'
-import { Marker, MapContainer, Polyline, TileLayer, Popup } from 'react-leaflet'
+import { MapContainer, TileLayer } from 'react-leaflet'
 import { RouteState } from '../../features/map/types'
+import { RouteLayout } from './RouteLayout'
 
 interface IMapRouter {
   width: Number
@@ -11,7 +12,6 @@ interface IMapRouter {
 
 export const MapRouter: React.FC<IMapRouter> = (props) => {
   const { width, height } = props
-  const purpleOptions = { color: 'purple' }
   const zoom: number = 8
   const mapStyle = {
     width: `${width}px`,
@@ -22,22 +22,11 @@ export const MapRouter: React.FC<IMapRouter> = (props) => {
     (store: { map: RouteState }) => store.map
   )
   const layoutRoute = map ? (
-    <Fragment>
-      {map.startPoint ? (
-        <Marker position={map.startPoint}>
-          <Popup>Точка отправки</Popup>
-        </Marker>
-      ) : null}
-      {map.endPoint ? (
-        <Marker position={map.endPoint}>
-          <Popup>Точка доставки</Popup>
-        </Marker>
-      ) : null}
-
-      {map.route ? (
-        <Polyline pathOptions={purpleOptions} positions={map.route} />
-      ) : null}
-    </Fragment>
+    <RouteLayout
+      startPoint={map.startPoint}
+      endPoint={map.endPoint}
+      route={map.route}
+    ></RouteLayout>
   ) : null
   const defaultLatLng: LatLngTuple =
     map && map.startPoint && map.endPoint
